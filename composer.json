@@ -1,0 +1,30 @@
+{
+    "name": "fiisoft/tasks-queue",
+    "type": "library",
+    "description": "Micro-framework for tasks-queue (asynchronous queue of commands handled by command-handlers called tasks).",
+    "keywords": ["queue","tasks queue","asynchronous command handler","command queue"],
+    "homepage": "https://github.com/fiiSoft/fiisoft-tasks-queue",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "FiiSoft",
+            "email": "fiisoft.production@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FiiSoft\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "roave/security-advisories": "dev-master",
+        "ramsey/uuid": "^3.6",
+        "fiisoft/basics": "^2.0.0",
+        "fiisoft/console": "^1.0.0",
+        "fiisoft/output-writer": "^1.0.0",
+        "fiisoft/logger": "^1.0.0"
+    }
+}
