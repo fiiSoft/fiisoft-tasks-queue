@@ -99,6 +99,9 @@ final class QueueWorker
             } catch (Exception $e) {
                 $this->logCatchedException($e);
                 
+                $this->logNotice('Requeue command '.$command->getName().' after error');
+                $this->commandQueue->requeueCommand($command);
+                
                 if ($exitOnError === true
                     || ($exitOnError === null && $this->exitOnError)
                     || $e->getCode() > 0
@@ -106,8 +109,6 @@ final class QueueWorker
                     throw $e;
                 }
                 
-                $this->logNotice('Requeue command '.$command->getName().' after error');
-                $this->commandQueue->requeueCommand($command);
                 return;
             }
             
