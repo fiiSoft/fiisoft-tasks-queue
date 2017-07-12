@@ -65,16 +65,16 @@ final class QueueWorker
      * Run worker in infinite loop and handle all incoming commands constantly.
      *
      * @param bool|null $exitOnError (default null) if true then worker will finish its job on first error
+     * @param bool $breakIfQueueIsEmpty if true then worker will finish work if queue is empty
      * @throws RuntimeException
      * @throws LogicException
      * @throws Exception
      * @return void
      */
-    public function run($exitOnError = null)
+    public function run($exitOnError = null, $breakIfQueueIsEmpty = false)
     {
-        while (true) {
-            $this->runOnce(true, $exitOnError);
-        }
+        $continue = !$breakIfQueueIsEmpty;
+        while ($this->runOnce($continue, $exitOnError) || $continue);
     }
     
     /**
@@ -87,7 +87,7 @@ final class QueueWorker
      * @throws LogicException
      * @throws RuntimeException
      * @throws Exception
-     * @return void
+     * @return bool true if command has been handled, false if there was no command in queue
      */
     public function runOnce($wait = true, $exitOnError = null)
     {
@@ -109,11 +109,15 @@ final class QueueWorker
                     throw $e;
                 }
                 
-                return;
+                return true;
             }
             
             $this->commandQueue->confirmCommandHandled($command);
+            
+            return true;
         }
+        
+        return false;
     }
     
     /**
