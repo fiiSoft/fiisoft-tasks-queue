@@ -3,13 +3,18 @@
 namespace FiiSoft\Tools\TasksQueue\Console;
 
 use BadMethodCallException;
+use Exception;
 use FiiSoft\Tools\Console\AbstractCommand;
 use FiiSoft\Tools\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
 use FiiSoft\Tools\TasksQueue\Command;
 use FiiSoft\Tools\TasksQueue\CommandQueue;
+use FiiSoft\Tools\TasksQueue\QueueFactory;
+use FiiSoft\Tools\TasksQueue\Worker\QueueWorker;
 use InvalidArgumentException;
+use LogicException;
 use Ramsey\Uuid\Uuid;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,30 +27,44 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
     /** @var LogsMonitor */
     private $logsMonitor;
     
+    /** @var QueueWorker */
+    private $queueWorker;
+    
+    /** @var QueueFactory */
+    private $queueFactory;
+    
+    /** @var bool */
+    protected $isInstant;
+    
     /**
      * @param string $name name of command
-     * @param CommandQueue $commandQueue
-     * @param LogsMonitor $logsMonitor
+     * @param QueueFactory $queueFactory
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct($name, CommandQueue $commandQueue, LogsMonitor $logsMonitor)
+    public function __construct($name, QueueFactory $queueFactory)
     {
-        $this->commandQueue = $commandQueue;
-        $this->logsMonitor = $logsMonitor;
-        
         parent::__construct($name);
     
         if (!$this->getDefinition()->hasOption('monitor')) {
             $this->addOption('monitor', 'm', InputOption::VALUE_NONE, 'Display progress of execution');
         }
+    
+        if (!$this->getDefinition()->hasOption('instant')) {
+            $this->addOption('instant', 'i', InputOption::VALUE_NONE, 'Use in-memory queue to run command');
+        }
+        
+        $this->queueFactory = $queueFactory;
     }
     
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws InvalidArgumentException
      * @throws BadMethodCallException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws LogicException
+     * @throws Exception
      * @return void
      */
     final protected function handleInput(InputInterface $input, OutputInterface $output)
@@ -54,6 +73,9 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
             exit(10);
         }
     
+        $this->isInstant = $input->hasOption('instant') && $input->getOption('instant');
+        $this->setUpDependencies();
+        
         $jobUuid = null;
         $monitoringEnabled = $input->hasOption('monitor') && $input->getOption('monitor') && !$this->isQuiet();
         
@@ -82,12 +104,34 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
         $this->displayInfoProcessStarted($output);
     
         if ($monitoringEnabled) {
-            $output->writeln('To turn off displaying logs use CTRL+C');
+            if (!$this->isInstant) {
+                $output->writeln('To turn off displaying logs use CTRL+C');
+            }
         
             $this->logsMonitor
                 ->setOutputWriter(new SymfonyConsoleOutputWriter($output))
                 ->filterByContext(['jobUuid' => $jobUuid])
                 ->start();
+        }
+    
+        if ($this->isInstant) {
+            $this->queueWorker->run(null, true);
+            $output->writeln('Done');
+        }
+    }
+    
+    /**
+     * @return void
+     */
+    private function setUpDependencies()
+    {
+        if ($this->isInstant) {
+            $this->commandQueue = $this->queueFactory->InstantCommandQueue();
+            $this->queueWorker = $this->queueFactory->InstantQueueWorker();
+            $this->logsMonitor = $this->queueFactory->InstantLogsMonitor();
+        } else {
+            $this->commandQueue = $this->queueFactory->CommandQueue();
+            $this->logsMonitor = $this->queueFactory->LogsMonitor();
         }
     }
     
@@ -97,7 +141,11 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
      */
     protected function displayInfoProcessStarted(OutputInterface $output)
     {
-        $output->writeln('The process has started!');
+        if ($this->isInstant) {
+            $output->writeln('The process has started. Do not interrupt it until its finished!');
+        } else {
+            $output->writeln('The process has started!');
+        }
     }
     
     /**

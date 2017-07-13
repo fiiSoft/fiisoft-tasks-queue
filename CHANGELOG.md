@@ -2,6 +2,12 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 2.0.0
+
+Added possibility to run queue-console-commands in "instant" mode.
+ - added new interface QueueFactory
+ - made changes in class AbstractQueueConsoleCommand - different params for constructor
+
 ## 1.2.0
 
 Changes in QueueWorker (compatible backwards):
