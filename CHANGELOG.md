@@ -2,6 +2,11 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 3.0.0
+
+Interface QueueFactory rewritten (backward-incompatible change). 
+This version is not tested yet. 
+
 ## 2.0.0
 
 Added possibility to run queue-console-commands in "instant" mode.

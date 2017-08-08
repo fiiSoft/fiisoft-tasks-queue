@@ -126,13 +126,15 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
     private function setUpDependencies()
     {
         if ($this->isInstant) {
-            $this->commandQueue = $this->queueFactory->InstantCommandQueue();
-            $this->queueWorker = $this->queueFactory->InstantQueueWorker();
-            $this->logsMonitor = $this->queueFactory->InstantLogsMonitor();
+            $this->queueFactory->useInstantImplementations(true);
+            $this->queueWorker = $this->queueFactory->QueueWorker();
         } else {
-            $this->commandQueue = $this->queueFactory->CommandQueue();
-            $this->logsMonitor = $this->queueFactory->LogsMonitor();
+            $this->queueFactory->useInstantImplementations(false);
+            $this->queueWorker = null;
         }
+        
+        $this->commandQueue = $this->queueFactory->CommandQueue();
+        $this->logsMonitor = $this->queueFactory->LogsMonitor();
     }
     
     /**
