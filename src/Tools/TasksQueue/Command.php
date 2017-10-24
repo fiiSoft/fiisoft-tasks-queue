@@ -52,15 +52,6 @@ interface Command
      */
     public function getData();
     
-//    /**
-//     * Get single item stored in data. If there is no item then return default value.
-//     *
-//     * @param string $key
-//     * @param mixed $default
-//     * @return mixed|null
-//     */
-//    public function getDataItem($key, $default = null);
-    
     /**
      * Get copy of this command with some data changed (which come from task).
      *
