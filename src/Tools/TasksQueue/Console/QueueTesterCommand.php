@@ -71,6 +71,14 @@ final class QueueTesterCommand extends AbstractCommand
         $this->addOption('monitor', 'm', InputOption::VALUE_NONE, 'Display progress of execution');
     }
     
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     * @throws \BadMethodCallException
+     * @return int
+     */
     protected function handleInput(InputInterface $input, OutputInterface $output)
     {
         $number = (int) $input->getOption('tasks');
@@ -112,5 +120,7 @@ final class QueueTesterCommand extends AbstractCommand
         if ($isMonitoringEnabled) {
             $this->logsMonitor->start(null, 1);
         }
+        
+        return 0;
     }
 }

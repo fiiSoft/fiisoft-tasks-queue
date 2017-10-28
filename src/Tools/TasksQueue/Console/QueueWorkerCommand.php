@@ -5,8 +5,6 @@ namespace FiiSoft\Tools\TasksQueue\Console;
 use Exception;
 use FiiSoft\Tools\Console\AbstractCommand;
 use FiiSoft\Tools\TasksQueue\Worker\QueueWorker;
-use LogicException;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -52,6 +50,12 @@ final class QueueWorkerCommand extends AbstractCommand
              ->addOption('level', 'l', InputOption::VALUE_REQUIRED, 'Min level of messages to log');
     }
     
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
+     * @return int
+     */
     protected function handleInput(InputInterface $input, OutputInterface $output)
     {
         $run = $input->getOption('run');
@@ -62,12 +66,12 @@ final class QueueWorkerCommand extends AbstractCommand
                 'At least one option (ex. --run|-r or --stop|-s) is required to run this command.'.PHP_EOL
                 .'See help for more information.'
             );
-            return;
+            return 10;
         }
     
         if ($stop && $run) {
             $output->writeln('I\'m sorry, I have no idea what to do... --run or --stop, no both!');
-            return;
+            return 5;
         }
         
         if ($run) {
@@ -75,11 +79,14 @@ final class QueueWorkerCommand extends AbstractCommand
         } else {
             $this->handleStop($input->getOption('stop'));
         }
+        
+        return 0;
     }
     
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      * @return void
      */
     private function handleRun(InputInterface $input, OutputInterface $output)
@@ -166,9 +173,9 @@ final class QueueWorkerCommand extends AbstractCommand
      * @param bool $canHandleSignals
      * @param bool $isInteractive
      * @param string $pidFile
-     * @throws RuntimeException
-     * @throws LogicException
-     * @throws Exception
+     * @throws \RuntimeException
+     * @throws \LogicException
+     * @throws \Exception
      * @return void
      */
     private function runWorker($canHandleSignals, $isInteractive, $pidFile)

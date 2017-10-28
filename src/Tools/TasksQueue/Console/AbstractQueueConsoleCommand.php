@@ -2,8 +2,6 @@
 
 namespace FiiSoft\Tools\TasksQueue\Console;
 
-use BadMethodCallException;
-use Exception;
 use FiiSoft\Tools\Console\AbstractCommand;
 use FiiSoft\Tools\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
@@ -11,10 +9,7 @@ use FiiSoft\Tools\TasksQueue\Command;
 use FiiSoft\Tools\TasksQueue\CommandQueue;
 use FiiSoft\Tools\TasksQueue\QueueFactory;
 use FiiSoft\Tools\TasksQueue\Worker\QueueWorker;
-use InvalidArgumentException;
-use LogicException;
 use Ramsey\Uuid\Uuid;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -60,17 +55,17 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws BadMethodCallException
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     * @throws LogicException
-     * @throws Exception
-     * @return void
+     * @throws \InvalidArgumentException
+     * @throws \BadMethodCallException
+     * @throws \RuntimeException
+     * @throws \LogicException
+     * @throws \Exception
+     * @return int
      */
     final protected function handleInput(InputInterface $input, OutputInterface $output)
     {
         if (!$this->canContinueExecution($input, $output)) {
-            exit(10);
+            return 10;
         }
     
         $this->isInstant = $input->hasOption('instant') && $input->getOption('instant');
@@ -85,7 +80,7 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
                 $jobUuid = Uuid::uuid4()->toString();
             } else {
                 $output->writeln('Monitoring is unavailable when no-interaction mode is enabled!');
-                exit(100);
+                return 100;
             }
         } else {
             $this->writelnV('Monitoring of execution is disabled');
@@ -98,7 +93,7 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
             $this->commandQueue->publishCommand($command);
         } else {
             $output->writeln('Command returned from method createQueueCommand is not of type '.Command::class);
-            exit(50);
+            return 50;
         }
     
         $this->displayInfoProcessStarted($output);
@@ -118,6 +113,8 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
             $this->queueWorker->run(null, true);
             $output->writeln('Done');
         }
+        
+        return 0;
     }
     
     /**

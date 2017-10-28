@@ -43,7 +43,7 @@ final class QueueRemoveTasksCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @return void
+     * @return int
      */
     protected function handleInput(InputInterface $input, OutputInterface $output)
     {
@@ -97,5 +97,7 @@ final class QueueRemoveTasksCommand extends AbstractCommand
                 $this->commandQueue->confirmCommandHandled($command);
             }
         } while ($command);
+        
+        return 0;
     }
 }

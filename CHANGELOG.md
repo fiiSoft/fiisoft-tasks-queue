@@ -2,10 +2,14 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 3.1.0
+
+Updated dependencies. Each method handleInput in each console command 
+returns exit-code.
+
 ## 3.0.0
 
 Interface QueueFactory rewritten (backward-incompatible change). 
-This version is not tested yet. 
 
 ## 2.0.0
 
