@@ -5,7 +5,7 @@
     "keywords": ["queue","tasks queue","asynchronous command handler","command queue"],
     "homepage": "https://github.com/fiiSoft/fiisoft-tasks-queue",
     "license": "MIT",
-    "version": "3.1.0",
+    "version": "3.2.0",
     "authors": [
         {
             "name": "FiiSoft",
@@ -24,6 +24,6 @@
         "fiisoft/basics": "^2.0.0",
         "fiisoft/console": "^1.0.0",
         "fiisoft/output-writer": "^1.0.0",
-        "fiisoft/logger": "^1.0.0"
+        "fiisoft/logger": "^2.0.0"
     }
 }

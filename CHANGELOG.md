@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 3.2.0
+
+Console command QueueTesterCommand is retrieving list of available levels directly from LogsMonitor.
+
 ## 3.1.0
 
 Updated dependencies. Each method handleInput in each console command 

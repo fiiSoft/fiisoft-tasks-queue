@@ -9,7 +9,6 @@ use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
 use FiiSoft\Tools\TasksQueue\Command\TestingCommand;
 use FiiSoft\Tools\TasksQueue\CommandQueue;
 use InfiniteIterator;
-use Psr\Log\LogLevel;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -21,16 +20,7 @@ final class QueueTesterCommand extends AbstractCommand
     private $commandQueue;
     
     /** @var array */
-    private $levels = [
-        LogLevel::DEBUG,
-        LogLevel::INFO,
-        LogLevel::NOTICE,
-        LogLevel::WARNING,
-        LogLevel::ERROR,
-        LogLevel::CRITICAL,
-        LogLevel::ALERT,
-        LogLevel::EMERGENCY,
-    ];
+    private $levels = [];
     
     /** @var integer */
     private $numOfLevels;
@@ -45,7 +35,9 @@ final class QueueTesterCommand extends AbstractCommand
      */
     public function __construct(CommandQueue $commandQueue, LogsMonitor $logsMonitor)
     {
+        $this->levels = $logsMonitor->getLevels();
         $this->numOfLevels = count($this->levels);
+        
         $this->commandQueue = $commandQueue;
         $this->logsMonitor = $logsMonitor;
         

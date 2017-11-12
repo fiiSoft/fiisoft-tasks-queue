@@ -150,33 +150,6 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @return bool
-     */
-    protected function canContinueExecution(InputInterface $input, OutputInterface $output)
-    {
-        if ($input->hasOption('run') && !$input->getOption('run')) {
-            $output->writeln('To start command, run it with option --run (-r)');
-            return false;
-        }
-        
-        return true;
-    }
-    
-    /**
-     * @param string|null $description
-     * @return void
-     */
-    final protected function addOptionRun($description = null)
-    {
-        if (!$this->getDefinition()->hasOption('run')) {
-            $this->addOption('run', 'r', InputOption::VALUE_NONE, $description ?: 'Run command');
-        }
-    }
-    
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
      * @param string|null $jobUuid
      * @return Command
      */
