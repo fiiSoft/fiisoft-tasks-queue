@@ -1,10 +1,10 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Console;
+namespace FiiSoft\TasksQueue\Console;
 
 use Exception;
 use FiiSoft\Tools\Console\AbstractCommand;
-use FiiSoft\Tools\TasksQueue\Worker\QueueWorker;
+use FiiSoft\TasksQueue\Worker\QueueWorker;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;

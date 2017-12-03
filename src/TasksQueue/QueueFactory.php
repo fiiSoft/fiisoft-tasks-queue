@@ -1,9 +1,9 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue;
+namespace FiiSoft\TasksQueue;
 
-use FiiSoft\Tools\Logger\Reader\LogsMonitor;
-use FiiSoft\Tools\TasksQueue\Worker\QueueWorker;
+use FiiSoft\Logger\Reader\LogsMonitor;
+use FiiSoft\TasksQueue\Worker\QueueWorker;
 
 interface QueueFactory
 {

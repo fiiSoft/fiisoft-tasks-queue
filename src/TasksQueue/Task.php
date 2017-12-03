@@ -1,6 +1,6 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue;
+namespace FiiSoft\TasksQueue;
 
 use InvalidArgumentException;
 use LogicException;

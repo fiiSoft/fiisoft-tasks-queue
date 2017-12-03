@@ -1,12 +1,12 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Worker;
+namespace FiiSoft\TasksQueue\Worker;
 
 use Exception;
-use FiiSoft\Tools\Logger\SmartLoggerHolder;
-use FiiSoft\Tools\Logger\Writer\SmartLogger;
-use FiiSoft\Tools\TasksQueue\CommandQueue;
-use FiiSoft\Tools\TasksQueue\Handler\CommandHandler;
+use FiiSoft\Logger\SmartLogger;
+use FiiSoft\Logger\SmartLogger\SmartLoggerHolder;
+use FiiSoft\TasksQueue\CommandQueue;
+use FiiSoft\TasksQueue\Handler\CommandHandler;
 use LogicException;
 use RuntimeException;
 

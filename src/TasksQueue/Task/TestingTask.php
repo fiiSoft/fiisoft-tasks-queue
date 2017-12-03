@@ -1,9 +1,9 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Task;
+namespace FiiSoft\TasksQueue\Task;
 
-use FiiSoft\Tools\Logger\Writer\SmartLogger;
-use FiiSoft\Tools\TasksQueue\Command\TestingCommand;
+use FiiSoft\Logger\SmartLogger;
+use FiiSoft\TasksQueue\Command\TestingCommand;
 use InvalidArgumentException;
 
 final class TestingTask extends AbstractTask

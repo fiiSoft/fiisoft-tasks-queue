@@ -1,14 +1,14 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Console;
+namespace FiiSoft\TasksQueue\Console;
 
+use FiiSoft\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\Console\AbstractCommand;
-use FiiSoft\Tools\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
-use FiiSoft\Tools\TasksQueue\Command;
-use FiiSoft\Tools\TasksQueue\CommandQueue;
-use FiiSoft\Tools\TasksQueue\QueueFactory;
-use FiiSoft\Tools\TasksQueue\Worker\QueueWorker;
+use FiiSoft\TasksQueue\Command;
+use FiiSoft\TasksQueue\CommandQueue;
+use FiiSoft\TasksQueue\QueueFactory;
+use FiiSoft\TasksQueue\Worker\QueueWorker;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

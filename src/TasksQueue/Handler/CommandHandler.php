@@ -1,13 +1,13 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Handler;
+namespace FiiSoft\TasksQueue\Handler;
 
-use FiiSoft\Tools\Logger\Writer\SmartLogger;
-use FiiSoft\Tools\TasksQueue\Command;
-use FiiSoft\Tools\TasksQueue\CommandQueue;
-use FiiSoft\Tools\TasksQueue\CommandResolver;
-use FiiSoft\Tools\TasksQueue\Task;
-use FiiSoft\Tools\TasksQueue\Task\NullTask;
+use FiiSoft\Logger\SmartLogger;
+use FiiSoft\TasksQueue\Command;
+use FiiSoft\TasksQueue\CommandQueue;
+use FiiSoft\TasksQueue\CommandResolver;
+use FiiSoft\TasksQueue\Task;
+use FiiSoft\TasksQueue\Task\NullTask;
 use LogicException;
 
 final class CommandHandler

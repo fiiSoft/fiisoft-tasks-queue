@@ -1,11 +1,11 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Task;
+namespace FiiSoft\TasksQueue\Task;
 
-use FiiSoft\Tools\Logger\LoggedExceptionThrower;
-use FiiSoft\Tools\Logger\Writer\SmartLogger;
-use FiiSoft\Tools\TasksQueue\Command;
-use FiiSoft\Tools\TasksQueue\Task;
+use FiiSoft\Logger\SmartLogger;
+use FiiSoft\Logger\SmartLogger\LoggedExceptionThrower;
+use FiiSoft\TasksQueue\Command;
+use FiiSoft\TasksQueue\Task;
 use InvalidArgumentException;
 use LogicException;
 use UnexpectedValueException;

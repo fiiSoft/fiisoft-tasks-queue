@@ -1,13 +1,13 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Console;
+namespace FiiSoft\TasksQueue\Console;
 
 use ArrayIterator;
+use FiiSoft\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\Console\AbstractCommand;
-use FiiSoft\Tools\Logger\Reader\LogsMonitor;
 use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
-use FiiSoft\Tools\TasksQueue\Command\TestingCommand;
-use FiiSoft\Tools\TasksQueue\CommandQueue;
+use FiiSoft\TasksQueue\Command\TestingCommand;
+use FiiSoft\TasksQueue\CommandQueue;
 use InfiniteIterator;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputInterface;

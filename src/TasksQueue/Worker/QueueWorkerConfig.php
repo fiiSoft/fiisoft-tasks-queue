@@ -1,6 +1,6 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Worker;
+namespace FiiSoft\TasksQueue\Worker;
 
 use FiiSoft\Tools\Configuration\AbstractConfiguration;
 

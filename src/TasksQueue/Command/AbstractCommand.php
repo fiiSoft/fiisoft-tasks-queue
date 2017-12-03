@@ -1,9 +1,9 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Command;
+namespace FiiSoft\TasksQueue\Command;
 
-use FiiSoft\Tools\TasksQueue\Command;
-use FiiSoft\Tools\TasksQueue\CommandMemo;
+use FiiSoft\TasksQueue\Command;
+use FiiSoft\TasksQueue\CommandMemo;
 use LogicException;
 
 abstract class AbstractCommand implements Command

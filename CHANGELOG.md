@@ -2,6 +2,11 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 4.0.0
+
+There are no new features in this version.
+It is just backward-incompatible because all classes have been moved to other namespace.
+
 ## 3.2.0
 
 Console command QueueTesterCommand is retrieving list of available levels directly from LogsMonitor.

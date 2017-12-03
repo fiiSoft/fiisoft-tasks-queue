@@ -1,11 +1,11 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Console;
+namespace FiiSoft\TasksQueue\Console;
 
 use FiiSoft\Tools\Console\AbstractCommand;
-use FiiSoft\Tools\TasksQueue\Command\StopRemovingTasks;
-use FiiSoft\Tools\TasksQueue\CommandQueue;
-use FiiSoft\Tools\TasksQueue\CommandResolver;
+use FiiSoft\TasksQueue\Command\StopRemovingTasks;
+use FiiSoft\TasksQueue\CommandQueue;
+use FiiSoft\TasksQueue\CommandResolver;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

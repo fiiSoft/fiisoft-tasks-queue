@@ -1,6 +1,6 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Command;
+namespace FiiSoft\TasksQueue\Command;
 
 use Psr\Log\LogLevel;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue;
+namespace FiiSoft\TasksQueue;
 
 /**
  * Reads and returns from queue commands which are waiting for handle.

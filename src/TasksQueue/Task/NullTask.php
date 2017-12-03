@@ -1,8 +1,8 @@
 <?php
 
-namespace FiiSoft\Tools\TasksQueue\Task;
+namespace FiiSoft\TasksQueue\Task;
 
-use FiiSoft\Tools\TasksQueue\Command;
+use FiiSoft\TasksQueue\Command;
 
 final class NullTask extends AbstractTask
 {
