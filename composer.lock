@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ddff6c4780bb52608fb26f6a81ebb4f",
+    "content-hash": "04a944d3e0718eb64d140b72487be6a1",
     "packages": [
         {
             "name": "fiisoft/basics",
@@ -101,16 +101,16 @@
         },
         {
             "name": "fiisoft/logger",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fiiSoft/fiisoft-logger.git",
-                "reference": "4b064971c49e0828221ea8db225fedb4965e838f"
+                "reference": "b0dc3bf7dad2a38fd6eec5da2a7336c01f8d46a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fiiSoft/fiisoft-logger/zipball/4b064971c49e0828221ea8db225fedb4965e838f",
-                "reference": "4b064971c49e0828221ea8db225fedb4965e838f",
+                "url": "https://api.github.com/repos/fiiSoft/fiisoft-logger/zipball/b0dc3bf7dad2a38fd6eec5da2a7336c01f8d46a6",
+                "reference": "b0dc3bf7dad2a38fd6eec5da2a7336c01f8d46a6",
                 "shasum": ""
             },
             "require": {
@@ -145,7 +145,7 @@
                 "logger",
                 "messages"
             ],
-            "time": "2017-12-03T20:10:41+00:00"
+            "time": "2017-12-04T22:29:29+00:00"
         },
         {
             "name": "fiisoft/output-writer",
@@ -372,16 +372,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.8.31",
+            "version": "v2.8.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "7cad097cf081c0ab3d0322cc38d34ee80484d86f"
+                "reference": "46270f1ca44f08ebc134ce120fd2c2baf5fd63de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/7cad097cf081c0ab3d0322cc38d34ee80484d86f",
-                "reference": "7cad097cf081c0ab3d0322cc38d34ee80484d86f",
+                "url": "https://api.github.com/repos/symfony/console/zipball/46270f1ca44f08ebc134ce120fd2c2baf5fd63de",
+                "reference": "46270f1ca44f08ebc134ce120fd2c2baf5fd63de",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +429,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-16T15:20:19+00:00"
+            "time": "2017-11-29T09:33:18+00:00"
         },
         {
             "name": "symfony/debug",

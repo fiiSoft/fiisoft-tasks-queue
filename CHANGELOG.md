@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 4.1.0
+
+Method AbstractQueueConsoleCommand::createQueueCommand can return array of Command objects now.
+
 ## 4.0.0
 
 There are no new features in this version.

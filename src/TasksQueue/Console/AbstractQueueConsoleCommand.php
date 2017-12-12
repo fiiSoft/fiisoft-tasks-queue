@@ -3,12 +3,12 @@
 namespace FiiSoft\TasksQueue\Console;
 
 use FiiSoft\Logger\Reader\LogsMonitor;
-use FiiSoft\Tools\Console\AbstractCommand;
-use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
 use FiiSoft\TasksQueue\Command;
 use FiiSoft\TasksQueue\CommandQueue;
 use FiiSoft\TasksQueue\QueueFactory;
 use FiiSoft\TasksQueue\Worker\QueueWorker;
+use FiiSoft\Tools\Console\AbstractCommand;
+use FiiSoft\Tools\OutputWriter\Adapter\SymfonyConsoleOutputWriter;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -86,14 +86,19 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
             $this->writelnV('Monitoring of execution is disabled');
         }
         
-        $command = $this->createQueueCommand($input, $output, $jobUuid);
-        
-        if ($command instanceof Command) {
+        $commands = $this->createQueueCommand($input, $output, $jobUuid);
+        if (!$this->isCommandOrArrayOfCommands($commands)) {
+            $output->writeln('Invalid value returned from method createQueueCommand');
+            return 50;
+        }
+    
+        if (!is_array($commands)) {
+            $commands = [$commands];
+        }
+    
+        foreach ($commands as $command) {
             $this->writelnV('Send command '.$command->getName().' to queue '.$this->commandQueue->queueName());
             $this->commandQueue->publishCommand($command);
-        } else {
-            $output->writeln('Command returned from method createQueueCommand is not of type '.Command::class);
-            return 50;
         }
     
         $this->displayInfoProcessStarted($output);
@@ -115,6 +120,25 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
         }
         
         return 0;
+    }
+    
+    /**
+     * @param mixed $command
+     * @return bool
+     */
+    private function isCommandOrArrayOfCommands($command)
+    {
+        if (is_array($command)) {
+            foreach ($command as $item) {
+                if (! $item instanceof Command) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        return $command instanceof Command;
     }
     
     /**
@@ -151,7 +175,7 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @param string|null $jobUuid
-     * @return Command
+     * @return Command[]|Command single command or array with commands
      */
     abstract protected function createQueueCommand(InputInterface $input, OutputInterface $output, $jobUuid);
 }
