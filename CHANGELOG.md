@@ -2,6 +2,10 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 4.2.0
+
+Parameter jobUuid is now generated and passed to command's factory method always.
+
 ## 4.1.0
 
 Method AbstractQueueConsoleCommand::createQueueCommand can return array of Command objects now.

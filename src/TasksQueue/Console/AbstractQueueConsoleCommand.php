@@ -71,20 +71,10 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
         $this->isInstant = $input->hasOption('instant') && $input->getOption('instant');
         $this->setUpDependencies();
         
-        $jobUuid = null;
+        $jobUuid = Uuid::uuid4()->toString();
         $monitoringEnabled = $input->hasOption('monitor') && $input->getOption('monitor') && !$this->isQuiet();
         
-        if ($monitoringEnabled) {
-            if ($input->isInteractive()) {
-                $this->writelnV('Monitoring of execution is enabled');
-                $jobUuid = Uuid::uuid4()->toString();
-            } else {
-                $output->writeln('Monitoring is unavailable when no-interaction mode is enabled!');
-                return 100;
-            }
-        } else {
-            $this->writelnV('Monitoring of execution is disabled');
-        }
+        $this->writelnV('Monitoring of execution is '.($monitoringEnabled ? 'enabled' : 'disabled'));
         
         $commands = $this->createQueueCommand($input, $output, $jobUuid);
         if (!$this->isCommandOrArrayOfCommands($commands)) {
@@ -174,7 +164,7 @@ abstract class AbstractQueueConsoleCommand extends AbstractCommand
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @param string|null $jobUuid
+     * @param string $jobUuid
      * @return Command[]|Command single command or array with commands
      */
     abstract protected function createQueueCommand(InputInterface $input, OutputInterface $output, $jobUuid);
