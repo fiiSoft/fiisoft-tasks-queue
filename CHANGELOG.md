@@ -2,6 +2,13 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 4.2.1
+
+Fixed bug of registering handlers for forbidden signals on Unix systems.  
+
+Currently worker QueueWorkerCommand can handle signals: SIGINT, SIGTERM, SIGQUIT, SIGHUP, SIGTSTP 
+(safely ends working). 
+
 ## 4.2.0
 
 Parameter jobUuid is now generated and passed to command's factory method always.

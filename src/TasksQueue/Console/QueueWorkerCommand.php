@@ -22,6 +22,9 @@ final class QueueWorkerCommand extends AbstractCommand
     /** @var string */
     private $pidfilePrefix = 'queue_worker_';
     
+    /** @var bool */
+    private $continue = true;
+    
     /**
      * @param QueueWorker $worker
      * @param string $pidfilesPath path to directory where pid file will be created
@@ -75,19 +78,17 @@ final class QueueWorkerCommand extends AbstractCommand
         }
         
         if ($run) {
-            $this->handleRun($input, $output);
-        } else {
-            $this->handleStop($input->getOption('stop'));
+            return $this->handleRun($input, $output);
         }
         
-        return 0;
+        return $this->handleStop($input->getOption('stop'));
     }
     
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @return void
+     * @return int exit code
      */
     private function handleRun(InputInterface $input, OutputInterface $output)
     {
@@ -137,12 +138,13 @@ final class QueueWorkerCommand extends AbstractCommand
         }
         
         $this->writelnVV('Command finished with exit code '.$exitCode);
-        exit($exitCode);
+        
+        return $exitCode;
     }
     
     /**
      * @param integer|null $stop
-     * @return void
+     * @return int exit code 0
      */
     private function handleStop($stop = null)
     {
@@ -167,6 +169,8 @@ final class QueueWorkerCommand extends AbstractCommand
                 break;
             }
         }
+    
+        return 0;
     }
     
     /**
@@ -187,18 +191,16 @@ final class QueueWorkerCommand extends AbstractCommand
         }
         
         if ($canHandleSignals) {
-            $continue = true;
-            $this->registerSignalsHandlers($continue);
+            $this->continue = true;
+            $this->registerSignalsHandlers();
             
-            declare(ticks=1) {
-                while ($continue
-                    && $this->isPidFileExists($pidFile)
-                    && (!$isInteractive || $this->handleUserCommand())
-                ) {
-                    $this->writelnVVV('Run worker [block 1]');
-                    $this->worker->runOnce(false);
-                    pcntl_signal_dispatch();
-                }
+            while ($this->continue
+                && $this->isPidFileExists($pidFile)
+                && (!$isInteractive || $this->handleUserCommand())
+            ) {
+                $this->writelnVVV('Run worker [block 1]');
+                $this->worker->runOnce(false);
+                pcntl_signal_dispatch();
             }
         } elseif ($isInteractive) {
             while ($this->isPidFileExists($pidFile) && $this->handleUserCommand()) {
@@ -218,7 +220,6 @@ final class QueueWorkerCommand extends AbstractCommand
      */
     private function handleUserCommand()
     {
-        //TODO this is not tested yet
         if (false === ($command = fgets(STDIN))) {
             return true;
         }
@@ -238,21 +239,23 @@ final class QueueWorkerCommand extends AbstractCommand
     }
     
     /**
-     * @param bool $continue REFERENCE
      * @return void
      */
-    private function registerSignalsHandlers(&$continue)
+    private function registerSignalsHandlers()
     {
-        $this->writelnVV('Register signals handlers');
-        //TODO https://en.wikipedia.org/wiki/Unix_signal
-        $signals = [SIGINT, SIGTERM, SIGKILL, SIGSTOP];
+        //https://en.wikipedia.org/wiki/Unix_signal
+        $signals = ['SIGINT', 'SIGTERM', 'SIGQUIT', 'SIGHUP', 'SIGTSTP'];
+        
+        $this->writelnVV('Register handlers for signals: '.implode(', ', $signals));
     
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $handler = function ($signal, $signinfo) { $this->continue = false; };
+        } else {
+            $handler = function ($signal) { $this->continue = false; };
+        }
+        
         foreach ($signals as $signal) {
-            pcntl_signal($signal, function ($signal) use (&$continue, $signals) {
-                if (in_array($signal, $signals, true)) {
-                    $continue = false;
-                }
-            });
+            pcntl_signal(constant($signal), $handler);
         }
     }
 }
