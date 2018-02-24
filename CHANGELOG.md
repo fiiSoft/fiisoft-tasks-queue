@@ -2,6 +2,13 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 4.2.2
+
+Console command QueueWorkerCommand is no longer final and can be extended.  
+
+It has now new special method dispatch() that can be overrided, 
+but this method still must be called from derived class to run or stop worker(s). 
+
 ## 4.2.1
 
 Fixed bug of registering handlers for forbidden signals on Unix systems.  

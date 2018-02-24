@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class QueueWorkerCommand extends AbstractCommand
+class QueueWorkerCommand extends AbstractCommand
 {
     const PROMPT = '::-> ';
     
@@ -33,11 +33,12 @@ final class QueueWorkerCommand extends AbstractCommand
     public function __construct(QueueWorker $worker, $pidfilesPath)
     {
         parent::__construct('queue:workers');
+        
         $this->worker = $worker;
         $this->pidfilesPath = rtrim($pidfilesPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
     
-    protected function configure()
+    final protected function configure()
     {
         $this->setDescription('Run and stop queue workers')
             ->setHelp('To start worker(s), run script with option --run (or -r).'.PHP_EOL.PHP_EOL
@@ -59,7 +60,7 @@ final class QueueWorkerCommand extends AbstractCommand
      * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
      * @return int
      */
-    protected function handleInput(InputInterface $input, OutputInterface $output)
+    final protected function handleInput(InputInterface $input, OutputInterface $output)
     {
         $run = $input->getOption('run');
         $stop = $input->hasParameterOption(['-s', '--stop']);
@@ -77,6 +78,17 @@ final class QueueWorkerCommand extends AbstractCommand
             return 5;
         }
         
+        return $this->dispatch($run, $input, $output);
+    }
+    
+    /**
+     * @param bool $run true to run worker, false to stop
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     */
+    protected function dispatch($run, InputInterface $input, OutputInterface $output)
+    {
         if ($run) {
             return $this->handleRun($input, $output);
         }
@@ -143,7 +155,7 @@ final class QueueWorkerCommand extends AbstractCommand
     }
     
     /**
-     * @param integer|null $stop
+     * @param integer|string|null $stop
      * @return int exit code 0
      */
     private function handleStop($stop = null)
