@@ -169,7 +169,7 @@ abstract class AbstractTask implements Task
         
         $data = $this->prepareDataForNextCommand();
         if (!is_array($data)) {
-            throw new UnexpectedValueException('Result returned from getDataForNextCommand must be an array!');
+            throw new UnexpectedValueException('Result returned from prepareDataForNextCommand must be an array!');
         }
         
         return $this->command->copyWithData(array_filter($data, function ($item) {

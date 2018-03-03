@@ -5,3 +5,6 @@
 /.buildpath
 /.project
 /composer.lock
+/test.php
+/test
+/src/TasksQueue/Queue/

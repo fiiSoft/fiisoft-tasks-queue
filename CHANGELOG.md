@@ -2,6 +2,12 @@
 
 All important changes to `fiisoft-tasks-queue` will be documented in this file
 
+## 4.3.0
+
+* New command queue:remove:all to remove all tasks from queue
+* Command queue:remove:tasks shows number of removed tasks
+* Every command has got optional parameter name in constructor to change default name
+
 ## 4.2.2
 
 Console command QueueWorkerCommand is no longer final and can be extended.  

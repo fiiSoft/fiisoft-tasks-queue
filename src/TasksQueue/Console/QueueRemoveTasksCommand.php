@@ -21,11 +21,12 @@ final class QueueRemoveTasksCommand extends AbstractCommand
     /**
      * @param CommandQueue $commandQueue
      * @param CommandResolver $commandResolver
+     * @param string|null $name
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct(CommandQueue $commandQueue, CommandResolver $commandResolver)
+    public function __construct(CommandQueue $commandQueue, CommandResolver $commandResolver, $name = null)
     {
-        parent::__construct('queue:remove:tasks');
+        parent::__construct($name ?: 'queue:remove:tasks');
         
         $this->commandQueue = $commandQueue;
         $this->commandResolver = $commandResolver;
@@ -52,6 +53,7 @@ final class QueueRemoveTasksCommand extends AbstractCommand
         $stopCommand = new StopRemovingTasks($taskName);
         $this->writelnVV('Publish command '.$stopCommand->getName());
         $this->commandQueue->publishCommand($stopCommand);
+        $countRemovedTasks = 0;
         
         do {
             $command = $this->commandQueue->getNextCommand(false);
@@ -77,6 +79,7 @@ final class QueueRemoveTasksCommand extends AbstractCommand
                     if ($task->getName() === $taskName) {
                         $this->writelnV('Remove task '.$task->getName());
                         $this->commandQueue->confirmCommandHandled($command);
+                        ++$countRemovedTasks;
                     } else {
                         $this->writelnVV('Requeue task '.$task->getName());
                         $this->commandQueue->requeueCommand($command);
@@ -97,6 +100,8 @@ final class QueueRemoveTasksCommand extends AbstractCommand
                 $this->commandQueue->confirmCommandHandled($command);
             }
         } while ($command);
+        
+        $this->writeln('Number of removed tasks: '.$countRemovedTasks);
         
         return 0;
     }

@@ -28,11 +28,12 @@ class QueueWorkerCommand extends AbstractCommand
     /**
      * @param QueueWorker $worker
      * @param string $pidfilesPath path to directory where pid file will be created
+     * @param string|null $name
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct(QueueWorker $worker, $pidfilesPath)
+    public function __construct(QueueWorker $worker, $pidfilesPath, $name = null)
     {
-        parent::__construct('queue:workers');
+        parent::__construct($name ?: 'queue:workers');
         
         $this->worker = $worker;
         $this->pidfilesPath = rtrim($pidfilesPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;

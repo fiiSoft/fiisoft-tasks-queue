@@ -31,9 +31,10 @@ final class QueueTesterCommand extends AbstractCommand
     /**
      * @param CommandQueue $commandQueue
      * @param LogsMonitor $logsMonitor
+     * @param string|null $name
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
-    public function __construct(CommandQueue $commandQueue, LogsMonitor $logsMonitor)
+    public function __construct(CommandQueue $commandQueue, LogsMonitor $logsMonitor, $name = null)
     {
         $this->levels = $logsMonitor->getLevels();
         $this->numOfLevels = count($this->levels);
@@ -41,7 +42,7 @@ final class QueueTesterCommand extends AbstractCommand
         $this->commandQueue = $commandQueue;
         $this->logsMonitor = $logsMonitor;
         
-        parent::__construct('queue:tester');
+        parent::__construct($name ?: 'queue:tester');
     }
     
     protected function configure()
